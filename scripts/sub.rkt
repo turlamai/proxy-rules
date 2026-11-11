@@ -7,7 +7,7 @@
 ;;   SURGE_SUB_URL=<url>   旧的单订阅写法，等价 SUB_SSRDOG_URL，仍兼容
 ;;
 ;; 生成的地区组与 Auto 均为 fallback：按优先级顺序取第一个可用节点——
-;; 主用 provider（如 ssrdog）的节点全部失联才切到备用（如 mitce），恢复后自动切回。
+;; 主用 provider（如 ssrdog）的节点全部失联才切到备用（如 ouo），恢复后自动切回。
 
 (require net/http-client net/url racket/port)
 
@@ -125,7 +125,7 @@
       from-file))
 
 ;; 命令行一次性覆盖订阅链接并写回 .env（ssrdog 分享链接过期后需整条换新）：
-;;   racket scripts/sub.rkt ssrdog=https://新链接 mitce=https://新链接
+;;   racket scripts/sub.rkt ssrdog=https://新链接 ouo=https://新链接
 ;; 返回更新后的行列表（纯函数，便于测试）
 (define (env-lines-with-key lines key val)
   (define matched (box #f))

@@ -55,7 +55,7 @@ FINAL,Proxy
 1. 复制 `scripts/.env.example` 为 `scripts/.env`，填入订阅地址。**出现顺序 = 优先级**：排前面的 provider 主用，其余按序做自动备用：
    ```
    SUB_SSRDOG_URL=https://ssrdog-订阅地址
-   SUB_MITCE_URL=https://mitce-订阅地址
+   SUB_OUO_URL=https://ouo-订阅地址
    ```
    旧的单订阅写法 `SURGE_SUB_URL=<url>` 仍然兼容。
 
@@ -68,7 +68,7 @@ FINAL,Proxy
 
    输出完整 Surge 配置到 `surge/surge.conf`。单个订阅下载/解析失败只告警跳过，全部失败才中止。
 
-**临时订阅链接**：部分面板不提供长期订阅，只给手动激活后短时效的分享链接（如 mitce 激活后 60 秒、ssrdog 5 分钟）。生成器对此的处理：`scripts/.env` 里的 URL 保持不变——先跑 `racket scripts/sub.rkt`，再去各面板点激活，脚本每 6 秒自动重试约 90 秒，抓取会自动落在激活窗口内，不用复制粘贴链接。
+**临时订阅链接**：部分面板不提供长期订阅，只给手动激活后短时效的分享链接（如 ssrdog 激活后 5 分钟）。生成器对此的处理：`scripts/.env` 里的 URL 保持不变——先跑 `racket scripts/sub.rkt`，再去各面板点激活，脚本每 6 秒自动重试约 90 秒，抓取会自动落在激活窗口内，不用复制粘贴链接。
 
 ### 多订阅备份切换（可选）
 
@@ -80,14 +80,14 @@ FINAL,Proxy
 |--------|------|------|
 | `Proxy` | select | `Auto`、各 provider 组、各地区、`DIRECT` |
 | `Auto` | fallback | 各地区——第一个健康地区优先 |
-| `SSRDOG` / `MITCE` | url-test | 该订阅全部节点 |
+| `SSRDOG` / `OUO` | url-test | 该订阅全部节点 |
 | `OpenAI` / `Claude` | select | 默认 🇺🇸 United States（不对香港开放的服务），其后 `Proxy`、各地区、`DIRECT` |
 | `Google` | select | `Proxy`、各地区、`DIRECT` |
 | 各地区组（🇭🇰/🇺🇸/…） | fallback | 节点按 provider 优先级排序 |
 
-地区组是 `fallback`：主用 provider 的节点全部排在备用 provider 节点之前，只有主用节点全部健康检查失败才切到备用，恢复后自动切回。ssrdog 美国节点全挂时，mitce 的美国节点自动顶上，无需手动重接。
+地区组是 `fallback`：主用 provider 的节点全部排在备用 provider 节点之前，只有主用节点全部健康检查失败才切到备用，恢复后自动切回。ssrdog 美国节点全挂时，ouo 的美国节点自动顶上，无需手动重接。
 
-**Clash Verge Rev 多订阅**：Verge 一次只合并一个订阅 profile，所以把两个订阅写进全局扩展配置（Merge）的 `proxy-providers`（键名建议用小写 `ssrdog` 和 `mitce`，策略组显示为全大写 `SSRDOG`/`MITCE`；链接只存在本机 Merge 文件里，不入仓库）：
+**Clash Verge Rev 多订阅**：Verge 一次只合并一个订阅 profile，所以把两个订阅写进全局扩展配置（Merge）的 `proxy-providers`（键名建议用小写 `ssrdog` 和 `ouo`，策略组显示为全大写 `SSRDOG`/`OUO`；链接只存在本机 Merge 文件里，不入仓库）：
 
 ```yaml
 proxy-providers:
@@ -98,12 +98,12 @@ proxy-providers:
     override:
       additional-prefix: "[SSRDOG] "
     health-check: { enable: true, url: "http://cp.cloudflare.com/generate_204", interval: 300 }
-  mitce:
-    url: "https://mitce-订阅地址"
-    path: ./providers/mitce.yaml
+  ouo:
+    url: "https://ouo-订阅地址"
+    path: ./providers/ouo.yaml
     interval: 86400
     override:
-      additional-prefix: "[MITCE] "
+      additional-prefix: "[OUO] "
     health-check: { enable: true, url: "http://cp.cloudflare.com/generate_204", interval: 300 }
 ```
 

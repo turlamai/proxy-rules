@@ -55,7 +55,7 @@ Generate a full Surge configuration from one or more subscription URLs using `sc
 1. Copy `scripts/.env.example` to `scripts/.env` and fill in your subscriptions. **Order = priority**: the first provider is primary, the rest serve as automatic fallback:
    ```
    SUB_SSRDOG_URL=https://ssrdog-subscription-url
-   SUB_MITCE_URL=https://mitce-subscription-url
+   SUB_OUO_URL=https://ouo-subscription-url
    ```
    The legacy single-subscription form `SURGE_SUB_URL=<url>` still works.
 
@@ -80,14 +80,14 @@ With the global extend config (Merge) defining subscriptions as `proxy-providers
 |-------|------|---------|
 | `Proxy` | select | `Auto`, one group per provider, regions, `DIRECT` |
 | `Auto` | fallback | regions — first healthy region wins |
-| `SSRDOG` / `MITCE` | url-test | all nodes of that provider |
+| `SSRDOG` / `OUO` | url-test | all nodes of that provider |
 | `OpenAI` / `Claude` | select | 🇺🇸 United States default (US-blocked services), then `Proxy`, regions, `DIRECT` |
 | `Google` | select | `Proxy`, regions, `DIRECT` |
 | regions (🇭🇰/🇺🇸/…) | fallback | nodes ordered by provider priority |
 
-Region groups are `fallback`: every primary-provider node is listed ahead of the backup-provider nodes, and traffic only moves to the backup when all primary nodes fail health checks (and moves back on recovery). So when ssrdog's US nodes die, mitce's US nodes take over automatically — no manual re-wiring.
+Region groups are `fallback`: every primary-provider node is listed ahead of the backup-provider nodes, and traffic only moves to the backup when all primary nodes fail health checks (and moves back on recovery). So when ssrdog's US nodes die, ouo's US nodes take over automatically — no manual re-wiring.
 
-**Clash Verge Rev with multiple subscriptions**: Clash Verge merges one subscription profile at a time, so put both subscriptions into the global Merge config as `proxy-providers` (use lowercase keys `ssrdog` and `mitce`; they are displayed uppercased as `SSRDOG`/`MITCE`. URLs stay in this local file, never committed):
+**Clash Verge Rev with multiple subscriptions**: Clash Verge merges one subscription profile at a time, so put both subscriptions into the global Merge config as `proxy-providers` (use lowercase keys `ssrdog` and `ouo`; they are displayed uppercased as `SSRDOG`/`OUO`. URLs stay in this local file, never committed):
 
 ```yaml
 proxy-providers:
@@ -98,12 +98,12 @@ proxy-providers:
     override:
       additional-prefix: "[SSRDOG] "
     health-check: { enable: true, url: "http://cp.cloudflare.com/generate_204", interval: 300 }
-  mitce:
-    url: "https://mitce-subscription-url"
-    path: ./providers/mitce.yaml
+  ouo:
+    url: "https://ouo-subscription-url"
+    path: ./providers/ouo.yaml
     interval: 86400
     override:
-      additional-prefix: "[MITCE] "
+      additional-prefix: "[OUO] "
     health-check: { enable: true, url: "http://cp.cloudflare.com/generate_204", interval: 300 }
 ```
 

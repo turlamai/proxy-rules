@@ -36,7 +36,7 @@ const REGIONS = [
 const TEST_URL = "http://cp.cloudflare.com/generate_204";
 const INTERVAL = 300;
 
-// provider 策略组显示名 = 键名全大写（避免大小写混搭；键建议用小写 ssrdog/mitce）
+// provider 策略组显示名 = 键名全大写（避免大小写混搭；键建议用小写 ssrdog/ouo）
 function providerDisplayName(key) {
   return String(key).toUpperCase();
 }
