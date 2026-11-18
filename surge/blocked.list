@@ -141,3 +141,8 @@ DOMAIN-SUFFIX,featurebase.app
 DOMAIN-SUFFIX,unraid.com
 DOMAIN-SUFFIX,unraid.net
 DOMAIN-SUFFIX,lime-technology.com
+
+# ---- Podcast audio CDN ----
+# blubrry.com covers media.blubrry.com + ins.blubrry.com (Fastly 202.160.x,
+# direct TLS dies from CN; podlens episode downloads and preview streaming)
+DOMAIN-SUFFIX,blubrry.com
